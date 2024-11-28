@@ -37,13 +37,18 @@ export class UsuarioService {
     return await this.usuarioRepository.findOneBy({ id: id });
   }
 
-  async eliminarUsuarioById(usuario: UsuarioEntity): Promise<any> {
-    const bonos: BonoEntity[] = await this.bonoRepository.findBy({
-      usuario: usuario,
+  async eliminarUsuarioById(id: number): Promise<any> {
+    const usuario: UsuarioEntity = await this.usuarioRepository.findOneBy({
+      id: id,
     });
-    if (usuario.rol !== 'Decana' && bonos.length !== 0) {
-      return await this.usuarioRepository.delete({ id: usuario.id });
-    } else {
+    if (usuario !== undefined) {
+      const bonos: BonoEntity[] = await this.bonoRepository.findBy({
+        usuario: usuario,
+      });
+      if (usuario.rol !== 'Decana' && bonos.length !== 0) {
+        return await this.usuarioRepository.delete({ id: usuario.id });
+      } else {
+      }
       throw new Error(
         JSON.stringify({
           message: 'Error de negocio',
