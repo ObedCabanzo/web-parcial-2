@@ -11,7 +11,7 @@ export class BonoService {
   ) {}
 
   async createBono(bono: BonoEntity): Promise<BonoEntity> {
-    if (bono.monto > 0 && bono.monto !== null ) {
+    if (bono.monto > 0 && bono.monto !== null && bono.usuario.rol === "Profesor") {
       return await this.bonoRepository.save(bono);
     } else {
       throw new Error(
