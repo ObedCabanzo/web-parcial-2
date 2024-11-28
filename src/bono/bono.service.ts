@@ -27,9 +27,9 @@ export class BonoService {
     return await this.bonoRepository.findOneBy({id:id})
   }
 
-  async findBonoByUsuario(idUser: number): Promise<BonoEntity> {
-
-    
-    //return await this.bonoRepository.findOneBy({usuario:idUser})
-  }
+  //async findBonoByUsuario(idUser: number): Promise<BonoEntity> {
+//
+  //  
+  //  return await this.bonoRepository.findOneBy({usuario:idUser})
+  //}
 }
