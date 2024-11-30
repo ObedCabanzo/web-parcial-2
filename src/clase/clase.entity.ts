@@ -1,7 +1,8 @@
 import { BonoEntity } from "src/bono/bono.entity";
 import { UsuarioEntity } from "src/usuario/usuario.entity";
-import { Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class ClaseEntity {
     
     @PrimaryGeneratedColumn({type: 'bigint'})
