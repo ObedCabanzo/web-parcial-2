@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioEntity } from './usuario.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { BonoEntity } from 'src/bono/bono.entity';
-import { ErrorManager } from 'src/utils/error.manager';
+import { BonoEntity } from '../bono/bono.entity';
+import { ErrorManager } from '../utils/error.manager';
 
 @Injectable()
 export class UsuarioService {
@@ -21,6 +21,11 @@ export class UsuarioService {
       if (usuario.rol === 'Profesor') {
         if (grupoValido.includes(usuario.grupo)) {
           return await this.usuarioRepository.save(usuario);
+        } else if (usuario.subordinados.length !== 0) {
+          throw new ErrorManager({
+            type: 'BAD_REQUEST',
+            message: 'El usuario no puede tener subordinados',
+          });
         } else {
           throw new ErrorManager({
             type: 'BAD_REQUEST',
@@ -28,13 +33,18 @@ export class UsuarioService {
           });
         }
       } else if (usuario.rol === 'Decana') {
-        if (usuario.extension.toString().length === 8) {
-          return await this.usuarioRepository.save(usuario);
-        } else {
+        if (usuario.extension.toString().length !== 8) {
           throw new ErrorManager({
             type: 'BAD_REQUEST',
             message: 'La extensión debe del usuario debe ser de 8 digitos',
           });
+        } else if (usuario.jefe !== undefined) {
+          throw new ErrorManager({
+            type: 'BAD_REQUEST',
+            message: 'El usuario no puede tener un jefe',
+          });
+        } else {
+          return await this.usuarioRepository.save(usuario);
         }
       } else {
         throw new ErrorManager({
@@ -43,7 +53,7 @@ export class UsuarioService {
         });
       }
     } catch (error) {
-      throw new ErrorManager.createSignatureError(error.message);
+      throw  ErrorManager.createSignatureError(error.message);
     }
   }
 
@@ -61,7 +71,7 @@ export class UsuarioService {
         const bonos: BonoEntity[] = await this.bonoRepository.findBy({
           usuario: usuario,
         });
-        if (bonos.length === 0) {
+        if (bonos.length !== 0) {
           throw new ErrorManager({
             type: 'BAD_REQUEST',
             message: 'El usuario tiene bonos asociados',
@@ -81,7 +91,7 @@ export class UsuarioService {
         });
       }
     } catch (error) {
-      throw new ErrorManager.createSignatureError(error.message);
+      throw  ErrorManager.createSignatureError(error.message);
     }
   }
 }

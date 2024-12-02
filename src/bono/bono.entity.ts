@@ -1,11 +1,11 @@
-import { ClaseEntity } from "src/clase/clase.entity";
-import { UsuarioEntity } from "src/usuario/usuario.entity";
+import { ClaseEntity } from "../clase/clase.entity";
+import { UsuarioEntity } from "../usuario/usuario.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class BonoEntity {
     
-    @PrimaryGeneratedColumn({type: 'bigint'})
+  @PrimaryGeneratedColumn('increment')
     id : number;
     
     @Column({type: 'int'})
@@ -17,11 +17,9 @@ export class BonoEntity {
     @Column()
     clave : number;
 
-    @Column()
     @ManyToOne(() => UsuarioEntity, usuario => usuario.bonos )
     usuario: UsuarioEntity;
 
-    @Column()
     @ManyToOne(() => ClaseEntity, clase => clase.bonos)
     clase: ClaseEntity;
     

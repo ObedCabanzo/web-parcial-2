@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BonoEntity } from './bono.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { ErrorManager } from 'src/utils/error.manager';
-import { UsuarioEntity } from 'src/usuario/usuario.entity';
+import { ErrorManager } from '../utils/error.manager';
+import { UsuarioEntity } from '../usuario/usuario.entity';
+import { ClaseEntity } from '../clase/clase.entity';
 
 @Injectable()
 export class BonoService {
@@ -12,10 +13,32 @@ export class BonoService {
     private readonly bonoRepository: Repository<BonoEntity>,
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
+    @InjectRepository(ClaseEntity)
+    private readonly claseRepository: Repository<ClaseEntity>,
   ) {}
 
   async createBono(bono: BonoEntity): Promise<BonoEntity> {
     try {
+      // Buscar usuario
+      const usuario: UsuarioEntity = await this.usuarioRepository.findOneBy({
+        id: bono.usuario.id,
+      });
+      if (!usuario) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: 'El usuario no existe',
+        });
+      }
+      // Buscar clase
+      const clase: ClaseEntity = await this.claseRepository.findOneBy({
+        id: bono.clase.id,
+      });
+      if (!clase) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: 'La clase no existe',
+        });
+      }
       if (bono.monto <= 0 || !bono.monto) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
@@ -30,7 +53,7 @@ export class BonoService {
         return await this.bonoRepository.save(bono);
       }
     } catch (error) {
-      throw new ErrorManager.createSignatureError(error.message);
+      throw ErrorManager.createSignatureError(error.message);
     }
   }
 
@@ -71,13 +94,18 @@ export class BonoService {
 
   async deleteBono(id: number): Promise<DeleteResult | undefined> {
     const bono: BonoEntity = await this.bonoRepository.findOneBy({ id: id });
-    if (bono.calificacion > 4) {
-      throw new ErrorManager({
-        type: 'BAD_REQUEST',
-        message: 'No se pudo eliminar. El bono tiene calificación mayor a 4',
-      });
-    } else {
-      return await this.bonoRepository.delete({ id: id });
+    try {
+      if (bono.calificacion > 4) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: 'No se pudo eliminar. El bono tiene calificación mayor a 4',
+        });
+      } else {
+        return await this.bonoRepository.delete({ id: id });
+      }
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    
     }
   }
 }

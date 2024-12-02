@@ -1,11 +1,11 @@
-import { BonoEntity } from "src/bono/bono.entity";
-import { UsuarioEntity } from "src/usuario/usuario.entity";
+import { BonoEntity } from "../bono/bono.entity";
+import { UsuarioEntity } from "../usuario/usuario.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class ClaseEntity {
     
-    @PrimaryGeneratedColumn({type: 'bigint'})
+    @PrimaryGeneratedColumn('increment')
     id: number // Long autogenerado
     
     @Column()

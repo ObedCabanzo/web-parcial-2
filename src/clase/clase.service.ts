@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClaseEntity } from './clase.entity';
-import { ErrorManager } from 'src/utils/error.manager';
+import { ErrorManager } from '../utils/error.manager';
 
 @Injectable()
 export class ClaseService {
@@ -22,7 +22,7 @@ export class ClaseService {
         return await this.claseRepository.save(clase);
       }
     } catch (error) {
-      throw new ErrorManager.createSignatureError(error.message);
+      throw ErrorManager.createSignatureError(error.message);
     }
   }
 
