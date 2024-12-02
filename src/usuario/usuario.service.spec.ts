@@ -5,6 +5,7 @@ import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { ErrorManager } from '../utils/error.manager';
 import { TypeOrmTestingConfig } from '../utils/typeorm_config';
+import { UsuarioDTO } from './usuario.dto';
 
 describe('UsuarioService', () => {
   let service: UsuarioService;
@@ -23,8 +24,7 @@ describe('UsuarioService', () => {
   });
 
   it('should create a user successfully', async () => {
-    const usuario: UsuarioEntity = {
-      id: 1,
+    const usuario: UsuarioDTO = {
       cedula: 123456789,
       extension: 101,
       nombre: 'Juan Pérez',
@@ -36,13 +36,15 @@ describe('UsuarioService', () => {
       clases: [],
     };
 
+  
+
     const result = await service.crearUsuario(usuario);
-    expect(result).toEqual(usuario);
+    expect(result.cedula).toEqual(usuario.cedula);
   });
 
   it('should throw error for invalid user group', async () => {
-    const usuario: UsuarioEntity = {
-      id: 1,
+    const usuario: UsuarioDTO = {
+
       cedula: 123456789,
       extension: 101,
       nombre: 'Juan Pérez',

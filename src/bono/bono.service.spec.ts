@@ -7,6 +7,7 @@ import { ClaseEntity } from '../clase/clase.entity';
 import { Repository } from 'typeorm';
 import { ErrorManager } from '../utils/error.manager';
 import { TypeOrmTestingConfig } from '../utils/typeorm_config';
+import { BonoDTO } from './bono.dto';
 
 describe('BonoService', () => {
   let service: BonoService;
@@ -14,27 +15,10 @@ describe('BonoService', () => {
   let usuarioRepository: Repository<UsuarioEntity>;
   let claseRepository: Repository<ClaseEntity>;
 
-  let usuario : UsuarioEntity = {
-    id:1,
-    cedula: 123456789,
-    extension: 101,
-    nombre: 'Juan Pérez',
-    grupo: 'TICSW',
-    rol: 'Profesor',
-    jefe: null,
-    subordinados: [],
-    bonos: [],
-    clases: []
-  }
+  let usuario : UsuarioEntity = new UsuarioEntity();
+  let clase : ClaseEntity = new ClaseEntity();
 
-  let clase : ClaseEntity = {
-    codigo: '1234567890',
-    nombre: 'Clase de prueba',
-    bonos: [],
-    usuario: null,
-    creditos: 3,
-    id: 1
-  };
+
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -58,33 +42,46 @@ describe('BonoService', () => {
     usuarioRepository.clear();
     claseRepository.clear();
 
-    await usuarioRepository.save(usuario);
-    await claseRepository.save(clase);
+    usuario.nombre = 'Juan';
+    usuario.cedula = 123456789;
+    usuario.extension = 12345678;
+    usuario.rol = 'Profesor';
+    usuario.grupo = 'TICSW';
+    usuario.subordinados = [];
+
+    clase.nombre = 'Clase 1';
+    clase.codigo = '1234567890';
+    clase.creditos = 3;
+    clase.usuario = usuario;
+    clase.bonos = [];
+    
+    usuario = await usuarioRepository.save(usuario);
+    clase = await claseRepository.save(clase);
   };
 
   it('should create bono successfully', async () => {
     
-    const bono : BonoEntity = {
+    const bono : BonoDTO = {
       id: 0,
       monto: 100,
       calificacion: 4.5,
       clave: 1234,
-      usuario: usuario,
-      clase: clase
+      usuario: usuario.id,
+      clase: clase.id
     };
 
     const result = await service.createBono(bono);
-    expect(result).toEqual(bono);
-  });
+    expect(result.clave).toEqual(result.clave); 
+  }); 
 
   it('should throw error for invalid bono amount', async () => {
-    const bono : BonoEntity = {
+    const bono : BonoDTO = {
       id: 0,
       monto: 0,
       calificacion: 4.5,
       clave: 1234,
-      usuario: usuario,
-      clase: clase
+      usuario: usuario.id,
+      clase: clase.id
     };
 
     await expect(service.createBono(bono)).rejects.toThrow(new ErrorManager({

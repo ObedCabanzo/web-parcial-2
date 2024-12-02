@@ -5,6 +5,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { ErrorManager } from '../utils/error.manager';
 import { UsuarioEntity } from '../usuario/usuario.entity';
 import { ClaseEntity } from '../clase/clase.entity';
+import { BonoDTO } from './bono.dto';
 
 @Injectable()
 export class BonoService {
@@ -17,11 +18,11 @@ export class BonoService {
     private readonly claseRepository: Repository<ClaseEntity>,
   ) {}
 
-  async createBono(bono: BonoEntity): Promise<BonoEntity> {
+  async createBono(bono: BonoDTO): Promise<BonoEntity> {
     try {
       // Buscar usuario
       const usuario: UsuarioEntity = await this.usuarioRepository.findOneBy({
-        id: bono.usuario.id,
+        id: bono.usuario,
       });
       if (!usuario) {
         throw new ErrorManager({
@@ -31,7 +32,7 @@ export class BonoService {
       }
       // Buscar clase
       const clase: ClaseEntity = await this.claseRepository.findOneBy({
-        id: bono.clase.id,
+        id: bono.clase,
       });
       if (!clase) {
         throw new ErrorManager({
@@ -44,13 +45,19 @@ export class BonoService {
           type: 'BAD_REQUEST',
           message: 'El monto no debe ser vacio y debe ser mayor a 0',
         });
-      } else if (bono.usuario.rol !== 'Profesor') {
+      } else if (usuario.rol !== 'Profesor') {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
           message: 'El usuario debe tener el rol de Profesor',
         });
       } else {
-        return await this.bonoRepository.save(bono);
+        const bonoToCreate: BonoEntity = new BonoEntity();
+        bonoToCreate.usuario = usuario;
+        bonoToCreate.clase = clase;
+        bonoToCreate.monto = bono.monto;
+        bonoToCreate.calificacion = bono.calificacion;
+        bonoToCreate.clave = bono.clave;
+        return await this.bonoRepository.save(bonoToCreate);
       }
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
@@ -58,7 +65,10 @@ export class BonoService {
   }
 
   async findBonoByCodigo(cod: number): Promise<BonoEntity> {
-    return await this.bonoRepository.findOneBy({ id: cod });
+    return await this.bonoRepository.findOne({
+      where: { id: cod },
+      relations: ['usuario', 'clase'],
+    });
   }
 
   async findAllBonosByUsuario(userId: number): Promise<BonoEntity[]> {
@@ -77,6 +87,7 @@ export class BonoService {
         where: {
           usuario: { id: userId },
         },
+        relations: ['usuario', 'clase'],
       });
 
       if (bonos.length === 0) {
@@ -105,7 +116,7 @@ export class BonoService {
       }
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
-    
     }
+    
   }
 }

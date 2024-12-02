@@ -22,4 +22,5 @@ export class ClaseEntity {
 
     @OneToMany(()=> BonoEntity, bono => bono.clase)
     bonos: BonoEntity[]
+
 } 

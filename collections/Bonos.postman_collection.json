@@ -1,0 +1,494 @@
+{
+	"info": {
+		"_postman_id": "9287ca63-0efb-446a-9be0-1a751b9a32db",
+		"name": "Bonos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20131755",
+		"_collection_link": "https://planetary-shadow-825010.postman.co/workspace/web_parcial~0bdf7fc3-c814-4b4b-90f4-e5ac12d48757/collection/20131755-9287ca63-0efb-446a-9be0-1a751b9a32db?action=share&source=collection_link&creator=20131755"
+	},
+	"item": [
+		{
+			"name": "crearUsuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"user_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cedula\": 123456789,\r\n  \"extension\": 101,\r\n  \"nombre\": \"Juan Pérez\",\r\n  \"grupo\": \"TICSW\",\r\n  \"rol\": \"Profesor\",\r\n  \"jefe\": null,\r\n  \"subordinados\": [],\r\n  \"bonos\": [],\r\n  \"clases\": []\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/usuarios",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "crearUsuario",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cedula\": 123789,\r\n  \"extension\": 101,\r\n  \"nombre\": \"Juan Pérez\",\r\n  \"grupo\": \"TICSW\",\r\n  \"rol\": \"Profesor\",\r\n  \"jefe\": null,\r\n  \"subordinados\": [],\r\n  \"bonos\": [],\r\n  \"clases\": []\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/usuarios",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"cedula\": 123456789,\n    \"extension\": 101,\n    \"nombre\": \"Juan Pérez\",\n    \"grupo\": \"TICSW\",\n    \"rol\": \"Profesor\",\n    \"jefe\": null,\n    \"subordinados\": [],\n    \"bonos\": [],\n    \"clases\": [],\n    \"id\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "crearClase",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"clase_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Matemáticas Avanzadas\",\r\n  \"codigo\": \"MATE101111\",\r\n  \"creditos\": 3,\r\n  \"usuario\": 1,\r\n  \"bonos\": []\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/clases",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"clases"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "crearClase",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Matemáticas Avanzadas\",\r\n  \"codigo\": \"MATE101111\",\r\n  \"creditos\": 3,\r\n  \"usuario\": 1,\r\n  \"bonos\": []\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/clases",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clases"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"codigo\": \"MATE101111\",\n    \"usuario\": {\n        \"id\": 1,\n        \"cedula\": 123456789,\n        \"extension\": 101,\n        \"nombre\": \"Juan Pérez\",\n        \"grupo\": \"TICSW\",\n        \"rol\": \"Profesor\"\n    },\n    \"creditos\": 3,\n    \"nombre\": \"Matemáticas Avanzadas\",\n    \"id\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "crearBono",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"bono_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 3,\r\n  \"clave\": 1234,\r\n  \"usuario\": {{user_id}} ,\r\n  \"clase\": {{clase_id}} \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/bonos",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"bonos"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "crearBono",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 3,\r\n  \"clave\": 1234,\r\n  \"usuario\": {{user_id}} ,\r\n  \"clase\": {{clase_id}} \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/bonos",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"bonos"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"usuario\": {\n        \"id\": 1,\n        \"cedula\": 123456789,\n        \"extension\": 101,\n        \"nombre\": \"Juan Pérez\",\n        \"grupo\": \"TICSW\",\n        \"rol\": \"Profesor\"\n    },\n    \"clase\": {\n        \"id\": 1,\n        \"nombre\": \"Matemáticas Avanzadas\",\n        \"codigo\": \"MATE101111\",\n        \"creditos\": 3\n    },\n    \"monto\": 50000,\n    \"calificacion\": 3,\n    \"clave\": 1234,\n    \"id\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "findBonoByCodigo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/bonos/{{bono_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"bonos",
+						"{{bono_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "findBonoByCodigo",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/bonos/{{bono_id}}",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"bonos",
+								"{{bono_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"monto\": 50000,\n    \"calificacion\": 3,\n    \"clave\": 1234,\n    \"usuario\": {\n        \"id\": 1,\n        \"cedula\": 123456789,\n        \"extension\": 101,\n        \"nombre\": \"Juan Pérez\",\n        \"grupo\": \"TICSW\",\n        \"rol\": \"Profesor\"\n    },\n    \"clase\": {\n        \"id\": 1,\n        \"nombre\": \"Matemáticas Avanzadas\",\n        \"codigo\": \"MATE101111\",\n        \"creditos\": 3\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "findAllBonosByUsuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/bonos/usuario/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"bonos",
+						"usuario",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "findAllBonosByUsuario",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/bonos/usuario/{{user_id}}",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"bonos",
+								"usuario",
+								"{{user_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"monto\": 50000,\n        \"calificacion\": 3,\n        \"clave\": 1234,\n        \"usuario\": {\n            \"id\": 1,\n            \"cedula\": 123456789,\n            \"extension\": 101,\n            \"nombre\": \"Juan Pérez\",\n            \"grupo\": \"TICSW\",\n            \"rol\": \"Profesor\"\n        },\n        \"clase\": {\n            \"id\": 1,\n            \"nombre\": \"Matemáticas Avanzadas\",\n            \"codigo\": \"MATE101111\",\n            \"creditos\": 3\n        }\n    },\n    {\n        \"id\": 2,\n        \"monto\": 50000,\n        \"calificacion\": 3,\n        \"clave\": 1234,\n        \"usuario\": {\n            \"id\": 1,\n            \"cedula\": 123456789,\n            \"extension\": 101,\n            \"nombre\": \"Juan Pérez\",\n            \"grupo\": \"TICSW\",\n            \"rol\": \"Profesor\"\n        },\n        \"clase\": {\n            \"id\": 1,\n            \"nombre\": \"Matemáticas Avanzadas\",\n            \"codigo\": \"MATE101111\",\n            \"creditos\": 3\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "deleteBono",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}/bonos/{{bono_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"bonos",
+						"{{bono_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "deleteBono",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"monto\": 50000,\r\n  \"calificacion\": 4.5,\r\n  \"clave\": 1234,\r\n  \"usuario\": 2,\r\n  \"clase\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/bonos/{{bono_id}}",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"bonos",
+								"{{bono_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"raw\": [],\n    \"affected\": 1\n}"
+				}
+			]
+		}
+	]
+}

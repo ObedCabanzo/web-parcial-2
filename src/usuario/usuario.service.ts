@@ -4,6 +4,8 @@ import { UsuarioEntity } from './usuario.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { BonoEntity } from '../bono/bono.entity';
 import { ErrorManager } from '../utils/error.manager';
+import { UsuarioDTO } from './usuario.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsuarioService {
@@ -15,11 +17,28 @@ export class UsuarioService {
     private readonly bonoRepository: Repository<BonoEntity>,
   ) {}
 
-  async crearUsuario(usuario: UsuarioEntity): Promise<UsuarioEntity> {
+  async crearUsuario(usuarioDTO: UsuarioDTO): Promise<UsuarioEntity> {
+
+    const usuario: UsuarioEntity = plainToInstance(UsuarioEntity, usuarioDTO);
+
+    const usuarioExistente: UsuarioEntity = await this.usuarioRepository.findOneBy({
+      cedula: usuarioDTO.cedula,
+    });
+
+    
+
     const grupoValido = ['TICSW', 'IMAGINE', 'COMIT'];
     try {
+      if (usuarioExistente) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: 'El usuario ya existe',
+        });
+      } 
       if (usuario.rol === 'Profesor') {
         if (grupoValido.includes(usuario.grupo)) {
+
+          
           return await this.usuarioRepository.save(usuario);
         } else if (usuario.subordinados.length !== 0) {
           throw new ErrorManager({

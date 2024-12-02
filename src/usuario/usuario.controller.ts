@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
-import { UsuarioEntity } from './usuario.entity';
+import { UsuarioDTO } from './usuario.dto';
 
 @Controller('usuarios')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
-  public async register(@Body() body: UsuarioEntity) {
+  public async register(@Body() body: UsuarioDTO) {
     return this.usuarioService.crearUsuario(body);
   }
 
